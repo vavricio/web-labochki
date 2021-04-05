@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Fibonacci number</title>
+</head>
+<body>
+
+<script>
+    var serializeForm = function(formData) {
+      var obj = {};
+
+      for(var pair of formData.entries()) {
+        parsed = parseInt(pair[1], 10);
+        if (isNaN(parsed)) {parsed=pair[1]}
+        obj[pair[0]] = parsed;
+      }
+
+      return obj;
+    };
+
+    window.addEventListener( "load", function () {
+          function sendData() {
+            
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function(){ 
+              var no_json_data = xhr.responseText
+              var json_data = JSON.parse(no_json_data);
+              alert("Your fibonacci number: " + json_data["output_value"]); }
+            xhr.onerror = function(){ alert(xhr.responseText); }
+            
+            // Bind the FormData object and the form element
+            const data = new FormData(  document.getElementById( "inputForm" ) );
+
+            xhr.open("POST", "/calculation", true);
+
+            // The data sent is what the user provided in the form
+            console.log(serializeForm(data))
+            console.log(JSON.stringify(serializeForm(data)));
+            xhr.send(JSON.stringify(serializeForm(data)));
+            
+          }
+
+          // Access the form element...
+          const form = document.getElementById( "inputForm" );
+
+          // ...and take over its submit event.
+          form.addEventListener( "submit", function ( event ) {
+            event.preventDefault();
+            sendData();
+    } );
+} );
+
+</script>
+
+<form id="inputForm">
+    <label for="number">Send me your number:</label>
+    <input id="number" type="number" name="number">
+    <input type="submit" value="Send">
+</form>
+</body>
+</html>
