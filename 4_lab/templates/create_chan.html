@@ -1,0 +1,40 @@
+<html>
+<head>
+
+</head>
+
+<body>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Create">
+</form>
+
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Link</td>
+        <td>Subscribers</td>
+        <td>Additional actions</td>
+    </thead>
+    {% for chan in chans %}
+        <tr>
+            <td><a href="/{{ chan.id }}/">{{ chan.id }}</a></td>
+            <td>{{ chan.name }}</td>
+            <td>{{ chan.link }}</td>
+            <td>{{ chan.subscribers }}</td>
+            <td>
+                <form method="post" action="/{{ chan.id }}/delete">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+
+</html>
