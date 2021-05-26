@@ -1,3 +1,2 @@
-# labochki
-2 course
-Web Labs
+# Web Applications 
+Laboratory work of a 2nd year student
